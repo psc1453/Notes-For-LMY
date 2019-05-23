@@ -62,18 +62,50 @@
 		45A1CCBA2296B61700FA84AC /* Notes For LMY */ = {
 			isa = PBXGroup;
 			children = (
+				45A1CCDD2296B92F00FA84AC /* Extension */,
+				45A1CCDA2296B8FC00FA84AC /* Story Board */,
+				45A1CCDB2296B91300FA84AC /* Show Content */,
+				45A1CCDC2296B92300FA84AC /* Notes List */,
 				45A1CCBB2296B61700FA84AC /* AppDelegate.swift */,
 				45A1CCC52296B61700FA84AC /* Assets.xcassets */,
-				45A1CCD22296B6CF00FA84AC /* Main.storyboard */,
-				45A1CCC72296B61700FA84AC /* LaunchScreen.storyboard */,
 				45A1CCCA2296B61700FA84AC /* Info.plist */,
 				45A1CCC22296B61700FA84AC /* Notes_For_LMY.xcdatamodeld */,
-				45A1CCD02296B69B00FA84AC /* UIColorExt.swift */,
-				45A1CCD42296B70300FA84AC /* NotesTableViewController.swift */,
-				45A1CCD62296B71A00FA84AC /* NotesTableViewCell.swift */,
-				45A1CCD82296B73E00FA84AC /* detailViewController.swift */,
 			);
 			path = "Notes For LMY";
+			sourceTree = "<group>";
+		};
+		45A1CCDA2296B8FC00FA84AC /* Story Board */ = {
+			isa = PBXGroup;
+			children = (
+				45A1CCD22296B6CF00FA84AC /* Main.storyboard */,
+				45A1CCC72296B61700FA84AC /* LaunchScreen.storyboard */,
+			);
+			path = "Story Board";
+			sourceTree = "<group>";
+		};
+		45A1CCDB2296B91300FA84AC /* Show Content */ = {
+			isa = PBXGroup;
+			children = (
+				45A1CCD82296B73E00FA84AC /* detailViewController.swift */,
+			);
+			path = "Show Content";
+			sourceTree = "<group>";
+		};
+		45A1CCDC2296B92300FA84AC /* Notes List */ = {
+			isa = PBXGroup;
+			children = (
+				45A1CCD42296B70300FA84AC /* NotesTableViewController.swift */,
+				45A1CCD62296B71A00FA84AC /* NotesTableViewCell.swift */,
+			);
+			path = "Notes List";
+			sourceTree = "<group>";
+		};
+		45A1CCDD2296B92F00FA84AC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				45A1CCD02296B69B00FA84AC /* UIColorExt.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
