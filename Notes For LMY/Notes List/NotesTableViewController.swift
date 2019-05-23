@@ -11,6 +11,8 @@ import CoreData
 
 class NotesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate{
     
+    @IBOutlet var emptyNoteView: UIView!
+    
     var fetchResultController: NSFetchedResultsController<NotesDB>!
     
     var notes: [NotesDB] = []
@@ -18,6 +20,15 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.cellLayoutMarginsFollowReadableWidth = true
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        tableView.backgroundView = emptyNoteView
+        tableView.backgroundView?.isHidden = true
         
         let fetchRequest: NSFetchRequest<NotesDB> = NotesDB.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
@@ -42,6 +53,14 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        if notes.count > 0{
+            tableView.backgroundView?.isHidden = true
+            tableView.separatorStyle = .singleLine
+        }
+        else{
+            tableView.backgroundView?.isHidden = false
+            tableView.separatorStyle = .none
+        }
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
