@@ -33,8 +33,10 @@ class detailViewController: UIViewController {
     
     override func viewDidLoad() {
         if note != nil {
+            navigationItem.title = note.title
             noteTextView.text = note.content
         }
+        noteTextView.textContainerInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
