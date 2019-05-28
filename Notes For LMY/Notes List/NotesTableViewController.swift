@@ -9,13 +9,22 @@
 import UIKit
 import CoreData
 
-class NotesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate{
+class NotesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text{
+            filterContent(for: searchText)
+            tableView.reloadData()
+        }
+    }
+    
     
     @IBOutlet var emptyNoteView: UIView!
     
     var fetchResultController: NSFetchedResultsController<NotesDB>!
     
     var notes: [NotesDB] = []
+    var searchResults: [NotesDB] = []
+    var searchController: UISearchController!
     
     
     override func viewDidLoad() {
@@ -23,6 +32,7 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
         
         tableView.cellLayoutMarginsFollowReadableWidth = true
         navigationController?.navigationBar.prefersLargeTitles = true
+        
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -48,7 +58,24 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
                 print(error)
             }
         }
+        
+        searchController = UISearchController(searchResultsController: nil)
+        self.navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
     }
+    
+    func filterContent(for searchText: String){
+        searchResults = notes.filter({note -> Bool in
+            let dateformatter = DateFormatter()
+            dateformatter.dateFormat = "YYYY-MM-dd HH:mm"
+            let date = dateformatter.string(from: note.date!)
+            let isMatch = date.localizedCaseInsensitiveContains(searchText)
+            return isMatch
+            }
+        )
+    }
+    
     
     // MARK: - Table view data source
     
@@ -67,7 +94,12 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return notes.count
+        if searchController.isActive{
+            return searchResults.count
+        }
+        else{
+            return notes.count
+        }
     }
     
     
@@ -75,10 +107,11 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
         
         let cellIdentifier = "notesListCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! NotesTableViewCell
-        cell.titleLabel.text = notes[indexPath.row].title
+        let note = searchController.isActive ? searchResults[indexPath.row] : notes[indexPath.row]
+        cell.titleLabel.text = note.title
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "YYYY-MM-dd HH:mm"// 自定义时间格式
-        let time = dateformatter.string(from: notes[indexPath.row].date!)
+        let time = dateformatter.string(from: note.date!)
         cell.dateLabel.text = time
         
         // Configure the cell...
@@ -149,7 +182,8 @@ class NotesTableViewController: UITableViewController, NSFetchedResultsControlle
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! UINavigationController
                 let targetController = destinationController.topViewController as! detailViewController
-                targetController.note = notes[indexPath.row]
+                let note = searchController.isActive ? searchResults[indexPath.row] : notes[indexPath.row]
+                targetController.note = note
             }
         }
     }
